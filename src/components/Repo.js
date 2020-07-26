@@ -38,7 +38,7 @@ function Repo({ repo }) {
           <span>{repo.stargazers_count}</span>
           <GoRepoForked className="ml-3" size={17} />
           <span>{repo.forks_count}</span>
-          <span className="ml-4">{repo.size}KB</span>
+          <span className="ml-3">{repo.size}KB</span>
         </div>
       </a>
     </div>
