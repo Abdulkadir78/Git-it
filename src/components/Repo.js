@@ -1,10 +1,11 @@
 import React from "react";
-import langColors from "../styles/langColors";
 import { GoRepo, GoStar, GoRepoForked } from "react-icons/go";
+
+import langColors from "../styles/langColors";
 
 function Repo({ repo }) {
   const truncateName = (name) => {
-    return name.slice(0, 19) + "...";
+    return name.slice(0, 24) + "...";
   };
 
   return (
@@ -17,9 +18,11 @@ function Repo({ repo }) {
       >
         <div className="card-body">
           <GoRepo className="mr-2" size={17} />
-          <span className="card-title h4 text-monospace">
-            {repo.name.length > 20 ? truncateName(repo.name) : repo.name}
+
+          <span className="card-title h5">
+            {repo.name.length > 25 ? truncateName(repo.name) : repo.name}
           </span>
+
           <p className="mt-3 pb-3 text-break">{repo.description}</p>
         </div>
 
@@ -33,10 +36,13 @@ function Repo({ repo }) {
               backgroundColor: langColors[repo.language],
             }}
           ></div>
+
           <span>{repo.language}</span>
           <GoStar className="ml-3 pb-1" size={20} />
+
           <span>{repo.stargazers_count}</span>
           <GoRepoForked className="ml-3" size={17} />
+
           <span>{repo.forks_count}</span>
           <span className="ml-3">{repo.size}KB</span>
         </div>

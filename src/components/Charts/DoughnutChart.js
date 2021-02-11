@@ -1,5 +1,6 @@
 import React from "react";
 import { Doughnut } from "react-chartjs-2";
+
 import langColors from "../../styles/langColors";
 
 function DoughnutChart({ reposData }) {

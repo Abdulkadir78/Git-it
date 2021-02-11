@@ -1,8 +1,9 @@
-export const fetchUserData = async (user) => {
+const fetchUserData = async (user) => {
   try {
     const url = `https://api.github.com/users/${user}`;
     const response = await fetch(url);
     const data = await response.json();
+
     if (response.status === 404) {
       return { error: "User not found.", status: 404 };
     }
@@ -12,23 +13,26 @@ export const fetchUserData = async (user) => {
         status: 403,
       };
     }
+
     return data;
   } catch (error) {
     console.log(error);
   }
 };
 
-export const fetchRepos = async (user) => {
+const fetchRepos = async (user) => {
   try {
     const url = `https://api.github.com/users/${user}/repos?per_page=100`;
     const response = await fetch(url);
     let data = await response.json();
+
     if (response.status === 404) {
       return [null, null];
     }
     if (response.status === 403) {
       return [null, null];
     }
+
     data = data.filter((repo) => !repo.fork);
     const sortByStars = data
       .sort((a, b) => b.stargazers_count - a.stargazers_count)
@@ -40,9 +44,12 @@ export const fetchRepos = async (user) => {
   }
 };
 
-export const fetchRateLimit = async () => {
+const fetchRateLimit = async () => {
   const url = "https://api.github.com/rate_limit";
   const response = await fetch(url);
   const data = await response.json();
+
   return data.rate.remaining;
 };
+
+export { fetchUserData, fetchRepos, fetchRateLimit };

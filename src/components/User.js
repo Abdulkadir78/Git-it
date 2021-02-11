@@ -1,36 +1,51 @@
 import React, { useEffect, useState } from "react";
 import { withRouter } from "react-router-dom";
 import Countup from "react-countup";
+import { FaBriefcase, FaMapMarkerAlt, FaCalendarAlt } from "react-icons/fa";
+
+import Error from "./Errors";
+import RateLimit from "./RateLimit";
 import { fetchUserData } from "../api";
 import { fetchRateLimit } from "../api";
-import Error from "./Errors";
-import { FaBriefcase, FaMapMarkerAlt, FaCalendarAlt } from "react-icons/fa";
+import Loader from "./Loader";
 // import mockUserData from "../mockData/mockUserData";
 
 function User(props) {
   const [userData, setUserData] = useState({});
   const [limit, setLimit] = useState();
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetching = async () => {
       const data = await fetchUserData(props.match.params.user);
+
       if (data.status === 404) {
         setError(data.error);
         setLimit(await fetchRateLimit());
+        setLoading(false);
         return;
       }
       if (data.status === 403) {
         setError(data.error);
         setLimit(await fetchRateLimit());
+        setLoading(false);
         return;
       }
+
       setUserData(data);
       setLimit(await fetchRateLimit());
+      setLoading(false);
     };
+
     fetching();
+
     // setUserData(mockUserData);
   }, [props.match.params.user]);
+
+  if (loading) {
+    return <Loader />;
+  }
 
   if (error) {
     return <Error error={error} limit={limit} />;
@@ -38,8 +53,8 @@ function User(props) {
 
   return userData.login ? (
     <>
-      <h4 className="pl-4 pt-3 text-monospace mb-1">{limit}/60</h4>
-      <h6 className="text-muted pl-2 text-monospace">requests left</h6>
+      <RateLimit limit={limit} />
+
       <div className="text-center mb-5 mt-4 container">
         <img
           src={userData.avatar_url}
@@ -90,6 +105,7 @@ function User(props) {
               <span>Repositories</span>
             </div>
           </div>
+
           <div className="card col-11 col-md-3 ml-3 mt-3">
             <div className="card-body">
               <h4>
@@ -103,6 +119,7 @@ function User(props) {
               <span>Followers</span>
             </div>
           </div>
+
           <div className="card col-11 col-md-3 ml-3 mt-3">
             <div className="card-body">
               <h4>
