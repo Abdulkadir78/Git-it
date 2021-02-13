@@ -5,7 +5,11 @@ import langColors from "../styles/langColors";
 
 function Repo({ repo }) {
   const truncateName = (name) => {
-    return name.slice(0, 24) + "...";
+    return name.slice(0, 25) + "...";
+  };
+
+  const truncateDesc = (desc) => {
+    return desc.slice(0, 65) + "...";
   };
 
   return (
@@ -23,28 +27,41 @@ function Repo({ repo }) {
             {repo.name.length > 25 ? truncateName(repo.name) : repo.name}
           </span>
 
-          <p className="mt-3 pb-3 text-break">{repo.description}</p>
+          <p className="mt-3 pb-3 text-break">
+            {repo.description && repo.description.length > 65
+              ? truncateDesc(repo.description)
+              : repo.description}
+          </p>
         </div>
 
-        <div style={{ position: "absolute", bottom: "10px", left: "25px" }}>
+        <div className="mt-3">
           <div
-            className="float-left mt-2 mr-1"
             style={{
-              width: "0.6rem",
-              height: "0.6rem",
-              borderRadius: "0.6rem",
-              backgroundColor: langColors[repo.language],
+              position: "absolute",
+              bottom: "10px",
+              left: "25px",
+              paddingTop: "10rem",
             }}
-          ></div>
+          >
+            <div
+              className="float-left mt-2 mr-1"
+              style={{
+                width: "0.6rem",
+                height: "0.6rem",
+                borderRadius: "0.6rem",
+                backgroundColor: langColors[repo.language],
+              }}
+            ></div>
+            <span>{repo.language}</span>
 
-          <span>{repo.language}</span>
-          <GoStar className="ml-3 pb-1" size={20} />
+            <GoStar className="ml-3 pb-1" size={20} />
+            <span>{repo.stargazers_count}</span>
 
-          <span>{repo.stargazers_count}</span>
-          <GoRepoForked className="ml-3" size={17} />
+            <GoRepoForked className="ml-3" size={17} />
+            <span>{repo.forks_count}</span>
 
-          <span>{repo.forks_count}</span>
-          <span className="ml-3">{repo.size}KB</span>
+            <span className="ml-3">{repo.size}KB</span>
+          </div>
         </div>
       </a>
     </div>

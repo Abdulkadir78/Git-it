@@ -1,11 +1,12 @@
-import React from "react";
+import React, { useState } from "react";
 import { FaGithub } from "react-icons/fa";
 
-function Search(props) {
+function Search({ history }) {
+  const [name, setName] = useState("");
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    const name = document.querySelector(".name");
-    props.history.push(`/${name.value}`);
+    history.push(`/${name}`);
   };
 
   return (
@@ -31,6 +32,7 @@ function Search(props) {
         <input
           type="text"
           className="form-control p-4 name text-center text-monospace"
+          onChange={(e) => setName(e.target.value)}
           required
           style={{ border: "1px black solid", fontSize: "x-large" }}
         />

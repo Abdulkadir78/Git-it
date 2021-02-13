@@ -3,7 +3,7 @@ import { withRouter } from "react-router-dom";
 import Countup from "react-countup";
 import { FaBriefcase, FaMapMarkerAlt, FaCalendarAlt } from "react-icons/fa";
 
-import Error from "./Errors";
+import Errors from "./Errors";
 import RateLimit from "./RateLimit";
 import { fetchUserData } from "../api";
 import { fetchRateLimit } from "../api";
@@ -12,29 +12,25 @@ import Loader from "./Loader";
 
 function User(props) {
   const [userData, setUserData] = useState({});
-  const [limit, setLimit] = useState();
+  const [limit, setLimit] = useState(null);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(true);
+  const [timer, setTimer] = useState(null);
 
   useEffect(() => {
     const fetching = async () => {
       const data = await fetchUserData(props.match.params.user);
+      const { remaining, resetIn } = await fetchRateLimit();
 
-      if (data.status === 404) {
+      if (data.error) {
         setError(data.error);
-        setLimit(await fetchRateLimit());
-        setLoading(false);
-        return;
-      }
-      if (data.status === 403) {
-        setError(data.error);
-        setLimit(await fetchRateLimit());
-        setLoading(false);
-        return;
+        if (data.status === 403) {
+          setTimer(resetIn); // show a cooldown when the user runs out of api requests
+        }
       }
 
       setUserData(data);
-      setLimit(await fetchRateLimit());
+      setLimit(remaining);
       setLoading(false);
     };
 
@@ -48,7 +44,7 @@ function User(props) {
   }
 
   if (error) {
-    return <Error error={error} limit={limit} />;
+    return <Errors error={error} limit={limit} timer={timer} />;
   }
 
   return userData.login ? (

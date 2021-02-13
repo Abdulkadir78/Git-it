@@ -59,16 +59,16 @@ function DoughnutChart({ reposData }) {
 
   return noStars ? (
     <div className="card col-11 col-md-5 my-3 ml-4">
-      <h4 className="card-title text-center font-weight-normal">
+      <h4 className="card-title text-center font-weight-normal mt-2">
         Stars per language
       </h4>
-      <h5 className="text-muted font-weight-normal text-center py-5">
+      <h6 className="text-muted font-weight-normal text-center py-5">
         Nothing to see here
-      </h5>
+      </h6>
     </div>
   ) : doughnutChart ? (
-    <div className="card col-11 col-md-5 my-3 ml-4">
-      <h4 className="card-title text-center font-weight-normal">
+    <div className="card col-11 col-md-5 my-3 ml-4 p-2">
+      <h4 className="card-title text-center font-weight-normal mt-2">
         Stars per language
       </h4>
       {doughnutChart}

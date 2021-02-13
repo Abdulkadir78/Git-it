@@ -51,8 +51,8 @@ function PieChart({ reposData }) {
     );
 
   return pieChart ? (
-    <div className="card col-11 col-md-5 my-3 ml-4">
-      <h4 className="card-title text-center font-weight-normal">
+    <div className="card col-11 col-md-5 my-3 ml-4 p-2">
+      <h4 className="card-title text-center font-weight-normal mt-2">
         Top languages
       </h4>
       {pieChart}
