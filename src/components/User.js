@@ -63,7 +63,7 @@ function User(props) {
           href={userData.html_url}
           target="_blank"
           rel="noopener noreferrer"
-          className="h3 font-weight-normal text-decoration-none text-info"
+          className="h3 font-weight-normal text-decoration-none text-info text-break"
         >
           @{userData.login}
         </a>
