@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { withRouter } from "react-router-dom";
+import FlipMove from "react-flip-move";
 
-import Repo from "./Repo";
 import { fetchRepos } from "../api";
+import Repo from "./Repo";
 import Charts from "./Charts";
 import Loader from "./Loader";
 // import mockReposData from "../mockData/mockReposData";
@@ -11,6 +12,7 @@ function Repos(props) {
   const [temp, setTemp] = useState([]);
   const [repos, setRepos] = useState([]);
   const [loading, setLoading] = useState(true);
+  const sortByRef = useRef();
 
   useEffect(() => {
     const fetching = async () => {
@@ -29,10 +31,11 @@ function Repos(props) {
 
     // setTemp(mockReposData);
     // setRepos(mockReposData);
+    // setLoading(false);
   }, [props.match.params.user]);
 
   const handleChange = () => {
-    const sort = document.getElementById("sortBy").value;
+    const sort = sortByRef.current.value;
 
     if (sort === "forks") {
       setRepos(temp.sort((a, b) => b.forks_count - a.forks_count).slice(0, 8));
@@ -62,9 +65,9 @@ function Repos(props) {
 
         <span className="ml-2">
           <select
-            id="sortBy"
+            ref={sortByRef}
             className="px-1 pb-1"
-            style={{ borderRadius: "5px" }}
+            style={{ borderRadius: "5px", cursor: "pointer" }}
             onChange={handleChange}
           >
             <option defaultValue>stars</option>
@@ -75,10 +78,12 @@ function Repos(props) {
       </div>
       <hr />
 
-      <div className="row mb-5 mt-3 justify-content-center">
-        {repos.map((repo) => (
-          <Repo key={repo.id} repo={repo} />
-        ))}
+      <div className="row mb-5 mt-3 justify-content-center position-relative">
+        <FlipMove typeName={null}>
+          {repos.map((repo) => (
+            <Repo key={repo.id} repo={repo} />
+          ))}
+        </FlipMove>
       </div>
     </>
   ) : null;

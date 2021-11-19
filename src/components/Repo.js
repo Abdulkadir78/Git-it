@@ -1,9 +1,9 @@
-import React from "react";
+import React, { forwardRef } from "react";
 import { GoRepo, GoStar, GoRepoForked } from "react-icons/go";
 
 import langColors from "../styles/langColors";
 
-function Repo({ repo }) {
+const Repo = forwardRef(({ repo }, ref) => {
   const truncateName = (name) => {
     return name.slice(0, 25) + "...";
   };
@@ -13,7 +13,7 @@ function Repo({ repo }) {
   };
 
   return (
-    <div className="card col-11 col-md-5 col-lg-4 col-xl-3 mt-4 ml-3">
+    <div ref={ref} className="card col-11 col-md-5 col-lg-4 col-xl-3 mt-4 ml-3">
       <a
         href={repo.html_url}
         target="_blank"
@@ -66,6 +66,6 @@ function Repo({ repo }) {
       </a>
     </div>
   );
-}
+});
 
 export default Repo;

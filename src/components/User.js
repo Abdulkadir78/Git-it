@@ -3,11 +3,11 @@ import { withRouter } from "react-router-dom";
 import Countup from "react-countup";
 import { FaBriefcase, FaMapMarkerAlt, FaCalendarAlt } from "react-icons/fa";
 
-import Errors from "./Errors";
-import RateLimit from "./RateLimit";
 import { fetchUserData } from "../api";
 import { fetchRateLimit } from "../api";
+import Errors from "./Errors";
 import Loader from "./Loader";
+import RateLimit from "./RateLimit";
 // import mockUserData from "../mockData/mockUserData";
 
 function User(props) {
@@ -37,6 +37,7 @@ function User(props) {
     fetching();
 
     // setUserData(mockUserData);
+    // setLoading(false);
   }, [props.match.params.user]);
 
   if (loading) {
